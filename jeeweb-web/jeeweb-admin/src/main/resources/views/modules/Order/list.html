@@ -1,0 +1,15 @@
+<% layout('/layouts/list.html', {title: 'order'}){ %>
+<#grid:grid id="orderGridId" url="${adminPath}/Order/ajaxList">
+	<#grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
+	<#grid:column label="sys.common.opt"  name="opt" formatter="button" width="100"/>
+<#grid:button groupname="opt" function="delete" />
+	<#grid:column label="code"  name="code" />
+	<#grid:column label="create_time"  name="createTime" />
+	<#grid:toolbar function="add"/>
+	<#grid:toolbar function="update"/>
+	<#grid:toolbar function="delete"/>
+	
+	<#grid:toolbar function="search"/>
+	<#grid:toolbar function="reset"/>
+</#grid:grid>
+<% } %>

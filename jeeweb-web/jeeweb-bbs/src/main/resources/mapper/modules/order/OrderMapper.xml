@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.mapper.OrderMapper" >
+
+	<sql id="Base_Column_List" >
+		t.id,
+		t.name,
+		t.parent_id as parentId,
+		t.parent_ids as parentIds,
+		t.parent_id as 'parent.id',
+		p.name AS 'parent.name',
+	    t.code ,
+	    t.create_time  AS 'createTime',
+	   (select count(*) from order s
+		WHERE s.parent_id=t.id) as
+		hasChildren
+	</sql>
+	<sql id="parentJoins">
+		LEFT JOIN order p ON p.id = t.parent_id
+	</sql>
+    <!-- 查找通过ID查找树信息 -->
+	<select id="selectByTreeId" resultType="cn.jeeweb.entity.Order"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from order t
+		<include refid="parentJoins" />
+		where t.id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查找树列表 -->
+	<select id="selectTreeList" resultType="cn.jeeweb.entity.Order">
+		select
+		<include refid="Base_Column_List" />
+		from order t
+		<include refid="parentJoins" />
+		<where>
+			${ew.sqlSegment}
+		</where>
+	</select>
+
+	<!-- 更新子树 -->
+	<update id="updateSunTreeParentIds">
+		update order set parent_ids=
+		CONCAT(#{newParentIds},substring(parent_ids,
+		length(#{oldParentIds})+1,length(parent_ids)+1))
+		where parent_ids like concat(#{oldParentIds}, '%')
+	</update>
+	
+	<!-- 删除子树 -->
+	<delete id="deleteSunTree" parameterType="java.lang.String">
+		delete from order
+		where parent_ids like concat(#{oldParentIds}, '%')
+	</delete>
+  
+</mapper>

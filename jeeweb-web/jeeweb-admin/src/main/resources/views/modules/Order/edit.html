@@ -1,0 +1,37 @@
+<% layout('/layouts/form.html', {title: 'order', formId: 'orderForm', bodyClass: 'white-bg', libs: ''}){ %>
+<#form:form id="orderForm" modelAttribute="data" method="post" class="form-horizontal">
+		<#form:hidden path="id"/>
+		<table  class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
+		   <tbody>
+				<tr>
+					<td  class="width-15 active text-right">	
+		              <label><font color="red">*</font>id:</label>
+		            </td>
+					<td class="width-35">
+						<#form:input path="id" htmlEscape="false" class="form-control"      />
+						<label class="Validform_checktip"></label>
+					</td>
+					<td  class="width-15 active text-right">	
+		              <label>code:</label>
+		            </td>
+					<td class="width-35">
+						<#form:input path="code" htmlEscape="false" class="form-control"      />
+						<label class="Validform_checktip"></label>
+					</td>
+				</tr>
+				<tr>
+					<td  class="width-15 active text-right">	
+		              <label>create_time:</label>
+		            </td>
+					<td class="width-35">
+						<#form:input path="createTime" htmlEscape="false" class="form-control"      />
+						<label class="Validform_checktip"></label>
+					</td>
+					<td class="width-15 active text-right"></td>
+		   			<td class="width-35" ></td>
+		  		</tr>
+		      
+		   </tbody>
+		</table>   
+	</#form:form>
+<% } %>
